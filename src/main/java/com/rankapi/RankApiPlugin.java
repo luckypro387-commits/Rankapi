@@ -13,16 +13,35 @@ import java.util.List;
 public class RankApiPlugin extends JavaPlugin {
 
     private HttpServer server;
-    private final String SECRET = "CHANGE_THIS_SECRET";
-    private final List<String> allowedRanks = List.of("vip", "mvp", "legend");
+    private String secret;
+    private int port;
+    private List<String> allowedRanks;
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
+
+        secret = getConfig().getString("secret", "pineapplemc");
+        port = getConfig().getInt("port", 8080);
+        allowedRanks = getConfig().getStringList("allowed-ranks");
+
+        if (allowedRanks.isEmpty()) {
+            allowedRanks = List.of("vip", "mvp", "legend");
+        }
+
+        String apiUrl = getConfig().getString("api-url", "http://<server-ip>:" + port + "/grant-rank");
+        if (!apiUrl.contains(String.valueOf(port))) {
+            apiUrl = "http://<server-ip>:" + port + "/grant-rank";
+            getConfig().set("api-url", apiUrl);
+            saveConfig();
+        }
+
         try {
-            server = HttpServer.create(new InetSocketAddress(8080), 0);
+            server = HttpServer.create(new InetSocketAddress(port), 0);
             server.createContext("/grant-rank", this::handleGrantRank);
             server.start();
-            getLogger().info("Rank API started on port 8080");
+            getLogger().info("Rank API started on port " + port);
+            getLogger().info("API URL: " + apiUrl);
         } catch (IOException e) {
             getLogger().severe("Failed to start API: " + e.getMessage());
         }
@@ -43,7 +62,7 @@ public class RankApiPlugin extends JavaPlugin {
 
         String body = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
 
-        if (!body.contains(SECRET)) {
+        if (!body.contains(secret)) {
             exchange.sendResponseHeaders(401, -1);
             return;
         }

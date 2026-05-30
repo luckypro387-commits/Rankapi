@@ -1,0 +1,7 @@
+secret: pineapplemc
+port: 8080
+allowed-ranks:
+  - vip
+  - mvp
+  - legend
+api-url: "http://<server-ip>:8080/grant-rank"
