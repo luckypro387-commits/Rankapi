@@ -3,3 +3,9 @@ version: 1.0
 main: com.rankapi.RankApiPlugin
 api-version: '1.21'
 author: luckypro387
+commands:
+  rankapi:
+    description: "RankAPI utility commands"
+    usage: /<command> fetch
+    permission: rankapi.use
+    permission-message: "You don't have permission to use RankAPI commands."

@@ -1,7 +1,20 @@
-secret: pineapplemc
-port: 8080
+api:
+  base-url: "https://your-app-domain.run.app"
+  interval-seconds: 60
+
+# Optional secret header sent with requests
+api.secret: ""
+
+# Auto-update settings
+auto-update:
+  enabled: false
+  url: "https://your-app-domain.run.app/api/plugin/latest"
+
+# Allowed ranks enforced locally
 allowed-ranks:
   - vip
   - mvp
   - legend
-api-url: "http://<server-ip>:8080/grant-rank"
+
+# Debug logging
+debug: true
