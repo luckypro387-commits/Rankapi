@@ -8,7 +8,7 @@ api.secret: ""
 # Auto-update settings
 auto-update:
   enabled: false
-  url: "https://your-app-domain.run.app/api/plugin/latest"
+  url: "https://raw.githubusercontent.com/luckypro387-commits/Rankapi/main/Auto%20Update/version.json"
 
 # Allowed ranks enforced locally
 allowed-ranks:
